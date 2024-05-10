@@ -10,34 +10,34 @@ use IEEE.numeric_std.all;
 
 entity twoscomp_decimal is
     port (
-        i_binary: in std_logic_vector(7 downto 0);
-        o_negative: out std_logic;
-        o_hundreds: out std_logic_vector(3 downto 0);
-        o_tens: out std_logic_vector(3 downto 0);
-        o_ones: out std_logic_vector(3 downto 0)
+        i_num: in std_logic_vector(7 downto 0);
+        o_neg: out std_logic;
+        o_h: out std_logic_vector(3 downto 0);
+        o_t: out std_logic_vector(3 downto 0);
+        o_o: out std_logic_vector(3 downto 0)
     );
 end twoscomp_decimal;
 
 architecture Behavioral of twoscomp_decimal is
 begin
-    process(i_binary)
+    process(i_num)
         variable binary_value: integer;
         variable decimal_value: integer;
     begin
-        binary_value := to_integer(signed(i_binary));
+        binary_value := to_integer(signed(i_num));
         if binary_value < 0 then
-            o_negative <= '1';
+            o_neg <= '1';
             decimal_value := -binary_value;
         else
-            o_negative <= '0';
+            o_neg <= '0';
             decimal_value := binary_value;
         end if;
         
-        o_hundreds <= std_logic_vector(to_unsigned(decimal_value/100, 4));
+        o_h <= std_logic_vector(to_unsigned(decimal_value/100, 4));
         decimal_value := decimal_value mod 100;
-        o_tens <= std_logic_vector(to_unsigned(decimal_value/10, 4));
+        o_t <= std_logic_vector(to_unsigned(decimal_value/10, 4));
         decimal_value := decimal_value mod 10;
-        o_ones <= std_logic_vector(to_unsigned(decimal_value, 4));
+        o_o <= std_logic_vector(to_unsigned(decimal_value, 4));
     end process;
 end Behavioral;
 
